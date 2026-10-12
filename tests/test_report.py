@@ -11,6 +11,7 @@ from core.report import (
     build_report_markdown,
     build_report_text,
 )
+from core.i18n import t
 from core.scoring import evaluate_full
 
 
@@ -104,7 +105,7 @@ def test_needs_info_status_is_rendered_without_error(
 ) -> None:
     report = renderer("Trade Licence", sample_result, date=date(2026, 1, 2))
 
-    assert "needs_info" in report
+    assert t("report.status.needs_info") in report
 
 
 def test_report_renders_each_demo_scenario_without_raw_personal_fields(
@@ -130,11 +131,11 @@ def test_report_renders_each_demo_scenario_without_raw_personal_fields(
             assert REPORT_TITLE in markdown
             assert DISCLAIMER in markdown
             assert result["fingerprint"] in markdown
-            assert result["status"] in markdown
+            assert t(f"report.status.{result['status']}") in markdown
             assert REPORT_TITLE in plain_text
             assert DISCLAIMER in plain_text
             assert result["fingerprint"] in plain_text
-            assert result["status"] in plain_text
+            assert t(f"report.status.{result['status']}") in plain_text
             for criterion in result["criteria"]:
                 assert criterion["rule_id"] in markdown
                 assert criterion["rule_id"] in plain_text

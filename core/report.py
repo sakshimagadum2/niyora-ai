@@ -7,6 +7,7 @@ from datetime import date as Date
 from typing import Any
 
 from core.eligibility import load_rules
+from core.i18n import t
 
 REPORT_TITLE = "Niyora AI Application Readiness Report"
 DISCLAIMER = (
@@ -19,6 +20,7 @@ def _report_sections(
     permit_type: str,
     result: Mapping[str, Any],
     generated_on: Date,
+    lang: str,
 ) -> list[tuple[str, list[str]]]:
     rules_version = result.get("rules_version")
     if not isinstance(rules_version, str):
@@ -44,15 +46,21 @@ def _report_sections(
         rule_id = criterion.get("rule_id", "Unknown rule")
         status = criterion.get("status", "unknown")
         reason = criterion.get("reason", "No explanation provided.")
-        criteria_lines.append(f"{rule_id} | {status} | {reason}")
+        translated_status = t(f"report.status.{status}", lang)
+        criteria_lines.append(f"{rule_id} | {translated_status} | {reason}")
 
     missing_lines: list[str] = []
     for document in missing_documents:
         if not isinstance(document, Mapping):
             raise ValueError("each missing document must be an object")
-        missing_lines.append(
-            str(document.get("label", document.get("id", "Unspecified document")))
+        document_id = document.get("id")
+        document_label = document.get(
+            "label",
+            document_id if isinstance(document_id, str) else "Unspecified document",
         )
+        if isinstance(document_id, str):
+            document_label = t(f"document.{document_id}", lang)
+        missing_lines.append(str(document_label))
 
     breakdown = readiness.get("breakdown", [])
     if not isinstance(breakdown, list):
@@ -61,9 +69,19 @@ def _report_sections(
     for item in breakdown:
         if not isinstance(item, Mapping):
             raise ValueError("each readiness breakdown item must be an object")
+        item_name = item.get("item", "Unknown item")
+        translated_item = t(f"document.{item_name}", lang)
+        if translated_item == f"document.{item_name}":
+            translated_item = str(item_name)
         breakdown_lines.append(
-            f"{item.get('item', 'Unknown item')}: "
-            f"{item.get('earned', 0)}/{item.get('weight', 0)} points"
+            t(
+                "report.breakdown_item",
+                lang,
+            ).format(
+                item=translated_item,
+                earned=item.get("earned", 0),
+                weight=item.get("weight", 0),
+            )
         )
 
     next_step_lines: list[str] = []
@@ -71,29 +89,55 @@ def _report_sections(
         if not isinstance(step, Mapping):
             raise ValueError("each next step must be an object")
         next_step_lines.append(
-            f"{step.get('priority', '?')}. {step.get('action', 'No action provided.')} "
-            f"(impact: {step.get('impact_points', 0)} points)"
+            t("report.step", lang).format(
+                priority=step.get("priority", "?"),
+                action=step.get("action", "No action provided."),
+                impact=step.get("impact_points", 0),
+            )
         )
 
     return [
-        ("Report", [REPORT_TITLE]),
-        ("Application", [f"Permit type: {permit_type}"]),
-        ("Overall status", [str(result.get("status", "unknown"))]),
-        ("Disclaimer", [DISCLAIMER]),
-        ("Criteria", criteria_lines or ["None"]),
-        ("Missing documents", missing_lines or ["None"]),
+        ("report.title", [t("report.title", lang)]),
         (
-            "Readiness",
-            [f"Score: {readiness.get('score', 'Not available')}/100"]
-            + (breakdown_lines or ["Breakdown: None"]),
+            "report.section.application",
+            [t("report.permit_type", lang).format(permit_type=permit_type)],
         ),
-        ("Prioritised next steps", next_step_lines or ["None"]),
         (
-            "Reference",
+            "report.section.status",
             [
-                f"Fingerprint: {result.get('fingerprint', 'Not available')}",
-                f"Rules version: {rules_version}",
-                f"Generated on: {generated_on.isoformat()}",
+                t(
+                    f"report.status.{result.get('status', 'unknown')}",
+                    lang,
+                )
+            ],
+        ),
+        ("report.section.disclaimer", [t("report.disclaimer", lang)]),
+        ("report.section.criteria", criteria_lines or [t("value.none", lang)]),
+        (
+            "report.section.missing_documents",
+            missing_lines or [t("value.none", lang)],
+        ),
+        (
+            "report.section.readiness",
+            [
+                t("report.score", lang).format(
+                    score=readiness.get("score", t("value.unavailable", lang))
+                )
+            ]
+            + (breakdown_lines or [t("report.breakdown", lang)]),
+        ),
+        (
+            "report.section.next_steps",
+            next_step_lines or [t("value.none", lang)],
+        ),
+        (
+            "report.section.reference",
+            [
+                t("report.fingerprint", lang).format(
+                    fingerprint=result.get("fingerprint", t("value.unavailable", lang))
+                ),
+                t("report.rules_version", lang).format(version=rules_version),
+                t("report.generated_on", lang).format(date=generated_on.isoformat()),
             ],
         ),
     ]
@@ -110,23 +154,21 @@ def _render_report(
         raise ValueError("permit_type must be a non-empty string")
     if not isinstance(result, Mapping):
         raise TypeError("result must be a mapping")
-    if lang != "en":
-        raise ValueError(f"unsupported report language: {lang!r}")
     report_date = generated_on if generated_on is not None else Date.today()
     if not isinstance(report_date, Date):
         raise TypeError("date must be a datetime.date instance")
 
-    sections = _report_sections(permit_type, result, report_date)
+    sections = _report_sections(permit_type, result, report_date, lang)
     if markdown:
-        rendered = [f"# {REPORT_TITLE}"]
+        rendered = [f"# {sections[0][1][0]}"]
         for heading, lines in sections[1:]:
-            rendered.extend(["", f"## {heading}"])
+            rendered.extend(["", f"## {t(heading, lang)}"])
             rendered.extend(f"- {line}" for line in lines)
         return "\n".join(rendered)
 
-    rendered = [REPORT_TITLE]
+    rendered = [sections[0][1][0]]
     for heading, lines in sections[1:]:
-        rendered.extend(["", heading.upper()])
+        rendered.extend(["", t(heading, lang).upper()])
         rendered.extend(lines)
     return "\n".join(rendered)
 

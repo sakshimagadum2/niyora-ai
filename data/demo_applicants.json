@@ -49,5 +49,35 @@
         "submitted_documents": []
       }
     }
+  },
+  "batch_applicants": {
+      "Trade Licence": [
+        {"label": "Trade sample 01", "business_name": "Sample Bakery One", "owner_count": 2, "tax_clearance": true, "submitted_documents": ["business_registration", "tax_clearance_certificate", "identity_document"]},
+        {"label": "Trade sample 02", "business_name": "Sample Grocer Two", "owner_count": 1, "tax_clearance": true, "submitted_documents": ["business_registration", "tax_clearance_certificate", "identity_document"]},
+        {"label": "Trade sample 03", "business_name": "Sample Tailor Three", "owner_count": 1, "tax_clearance": true, "submitted_documents": ["business_registration", "identity_document"]},
+        {"label": "Trade sample 04", "business_name": "Sample Florist Four", "owner_count": 0, "tax_clearance": true, "submitted_documents": ["business_registration"]},
+        {"label": "Trade sample 05", "business_name": "Sample Cafe Five", "owner_count": 2, "tax_clearance": false, "submitted_documents": []},
+        {"label": "Trade sample 06", "business_name": "Sample Studio Six", "submitted_documents": ["business_registration"]},
+        {"label": "Trade sample 07", "business_name": "Sample Repair Seven", "owner_count": 1, "tax_clearance": true, "submitted_documents": []},
+        {"label": "Trade sample 08", "business_name": "Sample Books Eight", "owner_count": 3, "tax_clearance": true, "submitted_documents": ["business_registration", "tax_clearance_certificate"]},
+        {"label": "Trade sample 09", "owner_count": 1, "tax_clearance": true, "submitted_documents": ["identity_document"]},
+        {"label": "Trade sample 10", "business_name": "Sample Market Ten", "owner_count": 0, "tax_clearance": false, "submitted_documents": ["tax_clearance_certificate"]},
+        {"label": "Trade sample 11", "business_name": "Sample Crafts Eleven", "submitted_documents": []},
+        {"label": "Trade sample 12", "business_name": "Sample Greenhouse Twelve", "owner_count": 4, "tax_clearance": true, "submitted_documents": ["business_registration", "tax_clearance_certificate", "identity_document"]}
+      ],
+      "Building Permit": [
+        {"label": "Building sample 01", "site_address": "Sample Site One", "building_area_sqm": 85, "zoning_approved": true, "submitted_documents": ["site_plan", "structural_plan", "property_record"]},
+        {"label": "Building sample 02", "site_address": "Sample Site Two", "building_area_sqm": 120, "zoning_approved": true, "submitted_documents": ["site_plan", "structural_plan", "property_record"]},
+        {"label": "Building sample 03", "site_address": "Sample Site Three", "building_area_sqm": 40, "zoning_approved": true, "submitted_documents": ["site_plan", "property_record"]},
+        {"label": "Building sample 04", "site_address": "Sample Site Four", "building_area_sqm": 0.5, "zoning_approved": true, "submitted_documents": ["site_plan"]},
+        {"label": "Building sample 05", "site_address": "Sample Site Five", "building_area_sqm": 70, "zoning_approved": false, "submitted_documents": []},
+        {"label": "Building sample 06", "site_address": "Sample Site Six", "submitted_documents": ["site_plan"]},
+        {"label": "Building sample 07", "site_address": "Sample Site Seven", "building_area_sqm": 90, "zoning_approved": true, "submitted_documents": []},
+        {"label": "Building sample 08", "site_address": "Sample Site Eight", "building_area_sqm": 150, "zoning_approved": true, "submitted_documents": ["site_plan", "structural_plan"]},
+        {"label": "Building sample 09", "building_area_sqm": 55, "zoning_approved": true, "submitted_documents": ["property_record"]},
+        {"label": "Building sample 10", "site_address": "Sample Site Ten", "building_area_sqm": 0, "zoning_approved": false, "submitted_documents": ["structural_plan"]},
+        {"label": "Building sample 11", "site_address": "Sample Site Eleven", "submitted_documents": []},
+        {"label": "Building sample 12", "site_address": "Sample Site Twelve", "building_area_sqm": 300, "zoning_approved": true, "submitted_documents": ["site_plan", "structural_plan", "property_record"]}
+      ]
   }
 }

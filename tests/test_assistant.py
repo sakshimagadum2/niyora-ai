@@ -219,6 +219,8 @@ def test_real_demo_scenarios_integrate_with_assistant() -> None:
     all_rules = load_rules()["permits"]
 
     for permit_type, permit_scenarios in scenarios.items():
+        if permit_type not in all_rules:
+            continue
         permit_rules = all_rules[permit_type]
         for scenario in permit_scenarios.values():
             inputs = dict(scenario)
