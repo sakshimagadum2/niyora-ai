@@ -3,6 +3,36 @@
   "notice": "All rules and document weights in this file are synthetic examples, not official requirements.",
   "permits": {
     "Trade Licence": {
+      "fields": [
+        {
+          "field": "business_name",
+          "label": "Business name",
+          "type": "text",
+          "min": null,
+          "max": null,
+          "options": []
+        },
+        {
+          "field": "owner_count",
+          "label": "Number of owners",
+          "type": "number",
+          "min": 1,
+          "max": 100,
+          "options": []
+        },
+        {
+          "field": "tax_clearance",
+          "label": "Tax clearance confirmed",
+          "type": "boolean",
+          "min": null,
+          "max": null,
+          "options": [
+            "Not provided",
+            "Yes",
+            "No"
+          ]
+        }
+      ],
       "rules": [
         {
           "id": "TL-01",
@@ -51,6 +81,36 @@
       ]
     },
     "Building Permit": {
+      "fields": [
+        {
+          "field": "site_address",
+          "label": "Proposed site address",
+          "type": "text",
+          "min": null,
+          "max": null,
+          "options": []
+        },
+        {
+          "field": "building_area_sqm",
+          "label": "Building area (m²)",
+          "type": "number",
+          "min": 1,
+          "max": 100000,
+          "options": []
+        },
+        {
+          "field": "zoning_approved",
+          "label": "Sample zoning check approved",
+          "type": "boolean",
+          "min": null,
+          "max": null,
+          "options": [
+            "Not provided",
+            "Yes",
+            "No"
+          ]
+        }
+      ],
       "rules": [
         {
           "id": "BP-01",
