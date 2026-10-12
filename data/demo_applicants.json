@@ -1,0 +1,53 @@
+{
+  "notice": "Synthetic demonstration scenarios only; these do not represent official permit rules.",
+  "scenarios": {
+    "Trade Licence": {
+      "ready": {
+        "business_name": "Maple Corner Bakery",
+        "owner_count": 2,
+        "tax_clearance": true,
+        "submitted_documents": [
+          "business_registration",
+          "tax_clearance_certificate",
+          "identity_document"
+        ]
+      },
+      "incomplete": {
+        "business_name": "Sample Cycle Repair",
+        "submitted_documents": [
+          "business_registration"
+        ]
+      },
+      "rule_failure": {
+        "business_name": "Sample Market Stall",
+        "owner_count": 0,
+        "tax_clearance": false,
+        "submitted_documents": []
+      }
+    },
+    "Building Permit": {
+      "ready": {
+        "site_address": "14 Sample Lane",
+        "building_area_sqm": 85,
+        "zoning_approved": true,
+        "submitted_documents": [
+          "site_plan",
+          "structural_plan",
+          "property_record"
+        ]
+      },
+      "incomplete": {
+        "site_address": "22 Example Road",
+        "submitted_documents": [
+          "site_plan"
+        ]
+      },
+      "rule_failure": {
+        "site_address": "3 Demonstration Court",
+        "building_area_sqm": 0.5,
+        "zoning_approved": false,
+        "submitted_documents": []
+      }
+    }
+  }
+}

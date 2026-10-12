@@ -1,0 +1,102 @@
+{
+  "rules_version": "sample-1.0",
+  "notice": "All rules and document weights in this file are synthetic examples, not official requirements.",
+  "permits": {
+    "Trade Licence": {
+      "rules": [
+        {
+          "id": "TL-01",
+          "type": "required",
+          "field": "business_name",
+          "value": true,
+          "label": "Business name is provided",
+          "fail_message": "Provide a business name.",
+          "unknown_message": "Business name is missing."
+        },
+        {
+          "id": "TL-02",
+          "type": "minimum",
+          "field": "owner_count",
+          "value": 1,
+          "label": "At least one owner is listed",
+          "fail_message": "List at least one business owner.",
+          "unknown_message": "Owner count is missing."
+        },
+        {
+          "id": "TL-03",
+          "type": "equals",
+          "field": "tax_clearance",
+          "value": true,
+          "label": "Tax clearance is confirmed",
+          "fail_message": "Confirm tax clearance for this sample check.",
+          "unknown_message": "Tax clearance information is missing."
+        }
+      ],
+      "required_documents": [
+        {
+          "id": "business_registration",
+          "label": "Business registration record",
+          "weight": 3
+        },
+        {
+          "id": "tax_clearance_certificate",
+          "label": "Tax clearance certificate",
+          "weight": 2
+        },
+        {
+          "id": "identity_document",
+          "label": "Owner identity document",
+          "weight": 1
+        }
+      ]
+    },
+    "Building Permit": {
+      "rules": [
+        {
+          "id": "BP-01",
+          "type": "required",
+          "field": "site_address",
+          "value": true,
+          "label": "Site address is provided",
+          "fail_message": "Provide the proposed site address.",
+          "unknown_message": "Site address is missing."
+        },
+        {
+          "id": "BP-02",
+          "type": "minimum",
+          "field": "building_area_sqm",
+          "value": 1,
+          "label": "Building area is at least one square metre",
+          "fail_message": "Enter a building area of at least one square metre.",
+          "unknown_message": "Building area is missing."
+        },
+        {
+          "id": "BP-03",
+          "type": "equals",
+          "field": "zoning_approved",
+          "value": true,
+          "label": "Sample zoning check is approved",
+          "fail_message": "The sample zoning check is not approved.",
+          "unknown_message": "Sample zoning approval is missing."
+        }
+      ],
+      "required_documents": [
+        {
+          "id": "site_plan",
+          "label": "Site plan",
+          "weight": 3
+        },
+        {
+          "id": "structural_plan",
+          "label": "Structural plan",
+          "weight": 3
+        },
+        {
+          "id": "property_record",
+          "label": "Property record",
+          "weight": 2
+        }
+      ]
+    }
+  }
+}
