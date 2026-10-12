@@ -5,6 +5,8 @@ import pytest
 
 from core import assistant
 from core.assistant import answer_question
+from core.eligibility import load_rules
+from core.scoring import evaluate_full
 
 
 @pytest.fixture
@@ -205,3 +207,28 @@ def test_answer_never_changes_the_result_status(
 
     assert result["status"] == original["status"]
     assert result == original
+
+
+def test_real_demo_scenarios_integrate_with_assistant() -> None:
+    import json
+    from pathlib import Path
+
+    demo_path = Path(__file__).resolve().parents[1] / "data" / "demo_applicants.json"
+    with demo_path.open(encoding="utf-8") as demo_file:
+        scenarios = json.load(demo_file)["scenarios"]
+    all_rules = load_rules()["permits"]
+
+    for permit_type, permit_scenarios in scenarios.items():
+        permit_rules = all_rules[permit_type]
+        for scenario in permit_scenarios.values():
+            inputs = dict(scenario)
+            documents = inputs.pop("submitted_documents", [])
+            result = evaluate_full(permit_type, inputs, documents)
+
+            response = answer_question("Which rules applied?", result, permit_rules)
+
+            assert response["source"] == "fallback"
+            assert result["status"] in {"eligible", "needs_info", "not_eligible"}
+            assert set(response["cited_rules"]) == {
+                criterion["rule_id"] for criterion in result["criteria"]
+            }
